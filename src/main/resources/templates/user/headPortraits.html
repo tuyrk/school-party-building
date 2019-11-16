@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>个人中心</title>
+    <link rel="stylesheet" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/lib/fonts/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/iconPage.css}"/>
+    <link rel="stylesheet" th:href="@{/css/imgUpload.css}"/>
+    <style>
+        .head-portraits{
+            padding: 10%;
+            background-color: #efefef;
+        }
+        .fa-3x{
+            margin-top:30%;
+            position:relative;
+            left: 26%;
+        }
+        .header-save {
+            width: 28.5%;
+            display: inline-block;
+            text-align: right;
+        }
+        @media screen and (min-width: 768px){
+            .fa-3x{
+                margin-top:30%;
+                left: 33%;
+            }
+        }
+        .fa-check-square-o:hover,.fa-check-square-o:active{
+            color: #428bca;
+        }
+    </style>
+</head>
+<body th:onload="'headshot(\''+@{${user.headshot}}+'\')'">
+<div class="all-content">
+    <div class="header-bar">
+        <div class="header-back" th:onclick="'window.location.href=\''+@{/user/info}+'\''">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div class="header-title">头像编辑</div>
+        <div class="header-save">
+            <i class="fa fa-lg fa-check-square-o" aria-hidden="true" id="headSubmit"></i>
+        </div>
+    </div>
+    <form id="form" class="head-portraits" enctype="multipart/form-data" method="post" th:action="@{/user/headshot/save}">
+        <div class="form-img">
+            <div class="img-list-2" id="upload" title="上传头像">
+                    <span class="fa-picture">
+                        <i class="fa fa-camera fa-3x" aria-hidden="true"></i>
+                    </span>
+                <ul class="img-list">
+                </ul>
+            </div>
+            <input type="file" name="file" id="choose"/>
+        </div>
+    </form>
+</div>
+</body>
+<script th:src="@{/js/lib/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
+<script th:src="@{/js/imgUpload.js}"></script>
+<script>
+    function headshot(img) {
+        $("#upload").css("background-image","url("+img+")");
+        $("#upload").css("background-size","cover");
+        $("#upload").css("background-position","center");
+    }
+    /*个人信息头像修改表单的提交验证*/
+    $("#headSubmit").on('click', function () {
+        $("#form").submit();
+        alert('保存成功')
+    });
+</script>
+</html>

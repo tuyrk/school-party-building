@@ -1,0 +1,182 @@
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>主页</title>
+    <link rel="stylesheet" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/lib/fonts/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}"/>
+</head>
+<body>
+<div class="all-content">
+    <!-- 轮播（Carousel） -->
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="item active">
+                <img th:src="@{/img/index/index-img/drawable-xhdpi/bannner_1.png}" alt="First slide"/>
+            </div>
+            <div class="item">
+                <img th:src="@{/img/index/index-img/drawable-xhdpi/bannner_2.png}" alt="First slide"/>
+            </div>
+            <div class="item">
+                <img th:src="@{/img/index/index-img/drawable-xhdpi/bannner_3.png}" alt="First slide"/>
+            </div>
+        </div>
+        <a class="carousel-control left" href="#myCarousel"
+           data-slide="prev" style="padding: 20% 0">&lsaquo;
+        </a>
+        <a class="carousel-control right" href="#myCarousel"
+           data-slide="next" style="padding: 20% 0">&rsaquo;
+        </a>
+    </div>
+    <!--icon功能子模块-->
+    <div class="icon-function">
+        <div class="function-inner">
+            <div class="icon">
+                <div class="icon-content">
+                    <a th:href="@{/user/person}">
+                        <img th:src="@{/img/index/index-img/drawable-xhdpi/characters-long-corridor.png}" alt="" class="img-responsive"/>
+                    </a>
+                </div>
+                <span>人物长廊</span>
+            </div>
+            <div class="icon">
+                <div class="icon-content">
+                    <a th:href="@{/user/social}">
+                        <img th:src="@{/img/index/index-img/drawable-xhdpi/social-practice.png}" alt="" class="img-responsive"/>
+                    </a>
+                </div>
+                <span>社会实践</span>
+            </div>
+            <div class="icon">
+                <div class="icon-content">
+                    <a th:href="@{/user/discuss}">
+                        <img th:src="@{/img/index/index-img/drawable-xhdpi/discussion.png}" alt="" class="img-responsive"/>
+                    </a>
+                </div>
+                <span>交流讨论</span>
+            </div>
+        </div>
+        <div class="function-inner function-inner-border">
+            <div class="icon">
+                <div class="icon-content">
+                    <a th:href="@{/user/course}">
+                        <img th:src="@{/img/index/index-img/drawable-xhdpi/classical-programs.png}" alt="" class="img-responsive"/>
+                    </a>
+                </div>
+                <span>经典课程</span>
+            </div>
+            <div class="icon">
+                <div class="icon-content">
+                    <a href="javascript:alert('暂未开启');">
+                        <img th:src="@{/img/index/index-img/drawable-xhdpi/online-test.png}" alt="" class="img-responsive"/>
+                    </a>
+                </div>
+                <span>在线考试</span>
+            </div>
+            <div class="icon">
+                <div class="icon-content">
+                    <a  data-toggle="modal" href="#myModal">
+                        <img th:src="@{/img/index/index-img/drawable-xhdpi/user-management.png}" alt="" class="img-responsive"/>
+                    </a>
+                </div>
+                <span>用户管理</span>
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">用户管理</h4>
+                            </div>
+                            <div class="modal-body" style="padding: 1%;">
+                                <a th:href="@{/user/modify}" class="list-group-item" style="border:none">修改密码</a>
+                                <a th:href="@{/}" class="list-group-item" style="border:none;border-top: 1px solid #e5e5e5">退出登录</a>
+                            </div>
+                            <div class="modal-footer" style="margin: 0">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--课程中心、个人中心-->
+    <div class="course-personal">
+        <div class="course-management">
+            <!---->
+            <a th:href="@{/user/course/manage}">
+                <i class="fa fa-list" aria-hidden="true"></i>
+                <span>课程管理</span>
+            </a>
+        </div>
+        <div class="personal-center">
+            <a th:href="@{/user/personal}">
+                <i class="fa fa-id-card" aria-hidden="true"></i>
+                <span>个人中心</span>
+            </a>
+        </div>
+    </div>
+    <div class="course-personal-border"></div>
+    <!--热点关注-->
+    <div class="concern">
+        <div class="concern-header">
+            <div class="concern-title">
+                <i class="fa fa-star-o" aria-hidden="true"></i>
+                <span>热点关注</span>
+            </div>
+            <div class="concern-more">
+                <a th:href="@{/user/news}">
+                    <span>更多</span>
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+        <div class="concern-content" th:if="${!#lists.isEmpty(news)}">
+            <div class="concern-content-img">
+                <img th:src="@{${news[0].headshot}}" alt="" class="img-responsive"/>
+            </div>
+            <div class="concern-content-text">
+                <div class="concern-content-text-header" th:text="${news[0].title}"></div>
+                <div class="concern-content-text-body" th:text="${news[0].content}"></div>
+                <div class="concern-content-text-footer">
+                    <div class="concern-content-text-more">
+                        <a th:href="@{'/user/news/'+${news[0].id}}">
+                            <span>详情查看</span>
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin:1% 0;border-bottom: 2px solid #f0f0f0;" th:if="${#lists.size(news) == 2}"></div>
+        <div class="concern-content" style="margin: 0;" th:if="${#lists.size(news) == 2}">
+            <div class="concern-content-img">
+                <img th:src="@{${news[1].headshot}}" alt="" class="img-responsive"/>
+            </div>
+            <div class="concern-content-text">
+                <div class="concern-content-text-header" th:text="${news[1].title}"></div>
+                <div class="concern-content-text-body" th:text="${news[1].content}"></div>
+                <div class="concern-content-text-footer">
+                    <div class="concern-content-text-more">
+                        <a th:href="@{'/user/news/'+${news[1].id}}">
+                            <span>详情查看</span>
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:src="@{/js/lib/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
+</html>

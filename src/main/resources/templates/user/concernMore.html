@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>热点关注</title>
+    <link rel="stylesheet" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/lib/fonts/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/iconPage.css}"/>
+    <style>
+        .icon-page-content {
+            border: none;
+            border-bottom: 2px solid #f0f0f0;
+            min-height: 80px;
+            padding: 2%;
+            margin-bottom: 3%;
+        }
+        .nav {
+            border: none;
+            margin-top: 1%;
+        }
+        .nav li {
+            width: 33.3%;
+            text-align: center;
+        }
+        .nav li a {
+            color: #333333;
+            border: none;
+            border-right: 1px solid #ce303d;
+            padding: 0;
+            border-radius: 0;
+            margin: 5% 0 0 0;
+        }
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+            color: #ce303d;
+        !important;
+            border: none;
+            border-right: 1px solid #ce303d;
+        }
+    </style>
+</head>
+<body>
+<div class="all-content">
+    <div class="header-bar">
+        <div class="header-back" th:onclick="'window.location.href=\''+@{/user/index}+'\''">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div class="header-title">热点关注</div>
+    </div>
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active">
+            <a href="#domestic-foreign-information" data-toggle="tab">国内外资讯</a></li>
+        <li>
+            <a id="type2" href="#policy-orientation" data-toggle="tab">政策方针</a></li>
+        <li style="width: 33.4%">
+            <a id="type3" href="#series-of-speech" data-toggle="tab" style="border: none">系列讲话</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="domestic-foreign-information">
+            <div class="icon-page-list" th:each="news : ${newsList}">
+                <div class="icon-page-content">
+                    <div class="icon-page-content-img">
+                        <img th:src="@{${news.headshot}}" alt="" class="img-responsive"/>
+                    </div>
+                    <div class="icon-page-content-text">
+                        <div class="icon-page-content-text-header" th:text="${news.title}"></div>
+                        <div class="icon-page-content-text-body" th:text="${news.content}"></div>
+                        <div class="icon-page-content-text-footer">
+                            <div class="icon-page-content-text-more">
+                                <a th:href="@{'/user/news/'+${news.id}}">
+                                    <span>详情查看</span>
+                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div style="text-align: right;font-size:10px;margin-top: 1%" th:text="${#dates.format(news.time,'yyyy-MM-dd')}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-default load-more load-more-d-f-i" onclick="getNewsAll(1,getPage1())">更多</button>
+        </div>
+        <div class="tab-pane fade" id="policy-orientation">
+            <button class="btn btn-default load-more load-more-policy-orientation" onclick="getNewsAll(2,getPage2())">更多</button>
+        </div>
+        <div class="tab-pane fade" id="series-of-speech">
+            <button class="btn btn-default load-more load-more-series-of-speech" onclick="getNewsAll(3,getPage3())">更多</button>
+        </div>
+    </div>
+</div>
+</body>
+<script th:src="@{/js/lib/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
+<script>
+    var page1 = 1;
+    var page2 = 0;
+    var page3 = 0;
+    var flag2 = false;
+    var flag3 = false;
+    function getPage1() {
+        return page1++;
+    }
+    function getPage2() {
+        return page2++;
+    }
+    function getPage3() {
+        return page3++;
+    }
+    $('#type2').on('click', function () {
+        if (flag2 === false) {
+            getNewsAll(2,page2++);
+        }
+    });
+    $('#type3').on('click', function () {
+        if (flag3 === false) {
+            getNewsAll(3,page3++);
+        }
+    });
+    function getNewsAll(typeNum,page) {
+        $.get("news/more", {type: typeNum, page: page}, function (data) {
+            if(typeNum===1) {
+                if(data.data){
+                    $.each(data.data,function (i,item) {
+                        $('.load-more-d-f-i').before(
+                            '<div class="icon-page-list">'+
+                            '<div class="icon-page-content">'+
+                            '<div class="icon-page-content-img">'+
+                            '<img src="/party'+item.headshot+'" alt="" class="img-responsive" />'+
+                            '</div>'+
+                            '<div class="icon-page-content-text">'+
+                            '<div class="icon-page-content-text-header">&nbsp;'+item.title+'</div>'+
+                            '<div class="icon-page-content-text-body">&nbsp;'+item.content+'</div>'+
+                            '<div class="icon-page-content-text-footer">'+
+                            '<div class="icon-page-content-text-more">'+
+                            '<a href="news/'+item.id+'">'+ '<span>&nbsp;详情查看&nbsp;</span>'+
+                            '<i class="fa fa-angle-double-right" aria-hidden="true"></i>'+ '</a>'+
+                            '</div>'+
+                            '<div style="margin-right:-5px;text-align: right;font-size:10px;margin-top: 1%">'+item.time+'</div>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>'
+                        )
+                    });
+                }else{
+                    alert('没有更多了')
+                }
+            }
+            if(typeNum===2){
+                if(data.data){
+                    $.each(data.data,function (i,item) {
+                        $('.load-more-policy-orientation').before(
+                            '<div class="icon-page-list">'+
+                            '<div class="icon-page-content">'+
+                            '<div class="icon-page-content-img">'+
+                            '<img src="/party'+item.headshot+'" alt="" class="img-responsive" />'+
+                            '</div>'+
+                            '<div class="icon-page-content-text">'+
+                            '<div class="icon-page-content-text-header">&nbsp;'+item.title+'</div>'+
+                            '<div class="icon-page-content-text-body">&nbsp;'+item.content+'</div>'+
+                            '<div class="icon-page-content-text-footer">'+
+                            '<div class="icon-page-content-text-more">'+
+                            '<a href="news/'+item.id+'">'+ '<span>&nbsp;详情查看&nbsp;</span>'+
+                            '<i class="fa fa-angle-double-right" aria-hidden="true"></i>'+ '</a>'+
+                            '</div>'+
+                            '<div style="margin-right:-5px;text-align: right;font-size:10px;margin-top: 1%">'+item.time+'</div>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>'
+                        )
+                    });
+                }else if (flag2 === true) {
+                    alert("没有更多了！");
+                }
+                flag2 = true;
+            }
+            if(typeNum===3){
+                if(data.data){
+                    $.each(data.data,function (i,item) {
+                        $('.load-more-series-of-speech').before(
+                            '<div class="icon-page-list">'+
+                            '<div class="icon-page-content">'+
+                            '<div class="icon-page-content-img">'+
+                            '<img src="/party'+item.headshot+'" alt="" class="img-responsive" />'+
+                            '</div>'+
+                            '<div class="icon-page-content-text">'+
+                            '<div class="icon-page-content-text-header">&nbsp;'+item.title+'</div>'+
+                            '<div class="icon-page-content-text-body">&nbsp;'+item.content+'</div>'+
+                            '<div class="icon-page-content-text-footer">'+
+                            '<div class="icon-page-content-text-more">'+
+                            '<a href="news/'+item.id+'">'+ '<span>&nbsp;详情查看&nbsp;</span>'+
+                            '<i class="fa fa-angle-double-right" aria-hidden="true"></i>'+ '</a>'+
+                            '</div>'+
+                            '<div style="margin-right:-5px;text-align: right;font-size:10px;margin-top: 1%">'+item.time+'</div>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>'
+                        )
+                    });
+                }else if (flag3 === true) {
+                    alert("没有更多了！");
+                }
+                flag3 = true;
+            }
+        })
+    }
+</script>
+</html>

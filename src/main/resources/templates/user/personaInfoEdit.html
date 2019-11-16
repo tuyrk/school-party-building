@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>个人中心</title>
+    <link rel="stylesheet" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/lib/fonts/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/iconPage.css}"/>
+    <style>
+        .personal-info {
+            padding: 5% 10% 0 10%;
+        }
+        .info-edit{
+            padding:4% 0;
+        }
+        .info-left{
+            padding-right: 5px;
+            padding-bottom: 2px;
+            width: 25%;
+        }
+        .info-right input{
+            margin: 0;
+            border: none;
+            border-bottom: 1px solid #ddd;
+            width: 75%;
+        }
+        .fa-chevron-right{
+            color: #ce303d;
+        }
+        .else-border{
+            padding-bottom: 23px;
+            margin-bottom:4%;
+        }
+        .form-control{
+            border:red;
+            padding: 0;
+            border-radius: 0;
+            height: 23px;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+        .form-control:active,.form-control:focus{
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+        .fa-chevron-right:active,.fa-check-square-o:active,.fa-chevron-right:focus,.fa-check-square-o:focus{
+            color: #428bca;
+        }
+        .fa-check-square-o:hover{
+            color: #428bca;
+        }
+        .header-save {
+            width: 28.5%;
+            display: inline-block;
+            text-align: right;
+        }
+        .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+            cursor: not-allowed;
+            background-color: #FFFFFF;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+<div class="all-content">
+    <div class="header-bar">
+        <div class="header-back" th:onclick="'window.location.href=\''+@{/user/personal}+'\''">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div class="header-title">个人信息</div>
+        <div class="header-save">
+            <i class="fa fa-lg fa-check-square-o" aria-hidden="true" id="submitEdit"></i>
+        </div>
+    </div>
+    <form id="form" method="post">
+        <div class="personal-info">
+            <input type="hidden" name="id" th:value="${user.id}"/>
+            <div class="info-edit else-border" th:onclick="'window.location.href=\''+@{/user/headshot}+'\''">
+                <div class="info-left pull-left" style="border: none">头像</div>
+                <div class="info-right">
+                    <i class="fa fa-chevron-right pull-right" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="info-edit"  >
+                <div class="info-left pull-left">用户名</div>
+                <div class="info-right">
+                    <input type="text" class="form-control" disabled="disabled" th:value="${user.username}"/>
+                </div>
+            </div>
+            <div class="info-edit">
+                <div class="info-left pull-left">手机号码</div>
+                <div class="info-right">
+                    <input type="text" class="form-control" name="phone" disabled="disabled" th:value="${user.phone}"/>
+                </div>
+            </div>
+            <div class="info-edit">
+                <div class="info-left pull-left">邮箱</div>
+                <div class="info-right">
+                    <input type="text" class="form-control" disabled="disabled" th:value="${user.mail}"/>
+                </div>
+            </div>
+            <div class="info-edit">
+                <div class="info-left pull-left">姓名</div>
+                <div class="info-right">
+                    <input type="text" name="name" class="form-control" th:value="${user.name}"/>
+                </div>
+            </div>
+            <div class="info-edit">
+                <div class="info-left pull-left">出生年月</div>
+                <div class="info-right">
+                    <input type="date" name="birth" style="padding: 0"  class="form-control" th:pattern="yyyy-MM-dd" th:field="*{user.birth}" />
+                </div>
+            </div>
+            <div class="info-edit">
+                <div class="info-left pull-left">学校</div>
+                <div class="info-right">
+                    <input type="text" name="school" class="form-control" th:value="${user.school}"/>
+                </div>
+            </div>
+            <div class="info-edit">
+                <div class="info-left pull-left">学院</div>
+                <div class="info-right">
+                    <input type="text" name="college"  class="form-control" th:value="${user.college}"/>
+                </div>
+            </div>
+            <div class="info-edit">
+                <div class="info-left pull-left">班级</div>
+                <div class="info-right">
+                    <input type="text" name="classes"  class="form-control" th:value="${user.classes}"/>
+                </div>
+            </div>
+            <div class="info-edit">
+                <div class="info-left pull-left">民族</div>
+                <div class="info-right">
+                    <input type="text" name="nation"  class="form-control" th:value="${user.nation}"/>
+                </div>
+            </div>
+            <div class="info-edit">
+                <div class="info-left pull-left">政治面貌</div>
+                <div class="info-right">
+                    <input type="text" name="political"  class="form-control" th:value="${user.political}"/>
+                </div>
+            </div>
+            <div class="info-edit">
+                <div class="info-left pull-left" style="width: 55%">确定为积极分子时间</div>
+                <div class="info-right">
+                    <input type="text" style="padding: 0;width: 45%"  class="form-control" disabled="disabled" th:value="${user.positive}"/>
+                </div>
+            </div>
+            <div class="info-edit">
+                <div class="info-left pull-left" style="width: 40%">预转备时间</div>
+                <div class="info-right">
+                    <input type="text" style="padding: 0;width: 60%"  class="form-control" disabled="disabled" th:value="${user.prepare}"/>
+                </div>
+            </div>
+            <div class="info-edit">
+                <div class="info-left pull-left">转正时间</div>
+                <div class="info-right">
+                    <input type="text" style="padding: 0" class="form-control" disabled="disabled" th:value="${user.official}"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script th:src="@{/js/lib/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
+<script>
+    $("#submitEdit").on('click', function () {
+        $("#form").attr('action','save');//
+        $("#form").submit();
+    });
+</script>
+</body>
+</html>

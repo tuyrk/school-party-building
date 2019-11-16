@@ -1,0 +1,107 @@
+*{
+    font-family: "Microsoft YaHei UI";
+}
+.all-content{
+    max-width: 1024px;
+    min-width: 320px;
+    margin: 0 auto;
+}
+.form-content{
+    max-width: 640px;
+    min-width: 320px;
+    min-height: 350px;
+    background: -webkit-linear-gradient(#f4f4f4,#f2f2f2,#efefef,#fff); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(#f4f4f4,#f2f2f2, #efefef,#fff); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(#f4f4f4,#f2f2f2,#efefef,#fff); /* Firefox 3.6 - 15 */
+    background: linear-gradient(#f4f4f4, #f2f2f2,#efefef,#fff); /* 标准的语法 */
+    margin: 0 auto;
+}
+.nav-tabs {
+    border-bottom: none;
+}
+.nav {
+    list-style: none;
+    width: 40%;
+    margin: 0 auto;
+    padding: 5% 0;
+}
+a {
+    color: #000000;
+}
+.nav > li > a {
+    padding: 2px 0;
+    border: 1px solid transparent;
+    font-size: 1.7rem;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #ce303d;
+    background-color: transparent;
+    border: 1px solid  transparent;
+    border-bottom-color: #e73b3b;
+    font-size: 1.7rem;
+}
+.group-input {
+    margin: 0 auto;
+    margin-bottom: 2%;
+    width: 60%;
+}
+.group-input .form-control{
+    width: 100%;
+    border-radius: 4px;
+    border-color: #dddddd;
+}
+.valid-code-btn{
+    padding-left: 2px;
+    padding-right: 2px;
+    width: 40%;
+    margin-bottom: 2px;
+    margin-left: 1%;
+    font-size: 12px;
+}
+.valid-code-div{
+    padding: 4px 3px;
+    margin-bottom: 2px;
+    margin-left: 4%;
+    font-size: 12px;
+}
+.forget-password{
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+    color: grey;
+    margin-top:10px;
+    font-size: 12px;
+}
+.login-btn{
+    width: 100%;
+    color: #ffffff;
+    background-color: #ce303d;
+    border-color: #ce303d;
+}
+.reg-btn{
+    width: 100%;
+    color: #ffffff;
+    background-color: #ce303d;
+    border-color: #ce303d;
+}
+@media screen and (max-width: 360px){
+    .form-content{
+        min-height: 335px;
+    }
+    .valid-code-btn{;
+        margin-left: 0%;
+    }
+    .valid-code-div{
+        margin-left: 0;
+    }
+}
+@media screen and (max-height: 480px) {
+    .form-content {
+        min-height: 240px;
+    }
+}
+@media screen and (width: 320px) {
+    .flex-alert {
+        top:39%;
+    }
+}

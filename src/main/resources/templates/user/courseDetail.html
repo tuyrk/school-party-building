@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>经典课程</title>
+    <link rel="stylesheet" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/lib/fonts/css/font-awesome.min.css}"/>
+    <style>
+        * {
+            font-family: "Microsoft YaHei UI";
+        }
+
+        .all-content {
+            max-width: 1024px;
+            min-width: 320px;
+            margin: 0 auto;
+        }
+
+        .header-back {
+            width: 10%;
+            display: inline-block;
+            position: fixed;
+            top: 10px;
+            left: 3%;
+            z-index: 1001;
+        }
+
+        .icon-page-content {
+            margin: 0 auto;
+        }
+
+        .icon-page-header {
+            text-align: center;
+        }
+        .fa-chevron-left{
+            color: darkslategray;
+        }
+        .fa-chevron-left:hover, .fa-chevron-left:active {
+            color: #428bca;
+        }
+
+        .nav {
+            border: none;
+            margin-bottom: 4%;
+        }
+
+        .nav li {
+            width: 33.3%;
+            text-align: center;
+        }
+
+        .nav li a {
+            width: 27%;
+            padding: 5px 0;
+            margin: 0 auto;
+            color: #333333;
+            border: none;
+        }
+
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+            color: #ce303d;
+        !important;
+            border: none;
+            border-bottom: 2px solid #ce303d;
+        }
+
+        .icon-page-operate {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .showP {
+            position: fixed;
+            bottom: 20px;
+            right: 60px;
+        }
+
+        p {
+            font-size: 1.6rem;
+            padding: 3%;
+        }
+        #chapter,#detail,#discuss{
+            padding: 5%;
+        }
+    </style>
+</head>
+<body>
+<div class="all-content">
+    <div class="header-back" onclick="history.go(-1)">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+    </div>
+    <div class="icon-page-content">
+        <div class="icon-page-header">
+            <div class="icon-page-header-video">
+                <video id="J_video" class="video"
+                       th:src="@{${course.video}}" data-type="vzixun"
+                       type="video/mp4" preload="true" controls="true" webkit-playsinline="true" width="100%"
+                       height="100%" data-duration="97000" data-width="640" data-height="356" data-source="天天看吧"
+                       data-publishtime="2017-12-26 15:29" data-size="8200868" autobuffer="true" playsinline="true"
+                       x-webkit-airplay="allow">
+                </video>
+            </div>
+        </div>
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active">
+                <a href="#chapter" data-toggle="tab">简介</a></li>
+            <li><a href="#detail" data-toggle="tab">详情</a></li>
+            <li style="width: 33.4%">
+                <a href="#discuss" data-toggle="tab">评论</a></li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade in active" id="chapter" th:text="${course.chapter}"></div>
+            <div class="tab-pane fade" id="detail" th:text="${course.details}"></div>
+            <div class="tab-pane fade" id="discuss" th:each="comment : ${course.commentList}" style="text-align: center">
+                <span th:text="${comment.username}+':'"></span><br/>
+                <span th:text="${comment.content}+':'"></span> <br/>
+                <span th:text="${comment.time}+':'"></span> <br/>
+            </div>
+        </div>
+    </div>
+    <div class="icon-page-operate">
+        <i class="fa fa-3x fa-plus-circle" aria-hidden="true" style="color: #21b384;"></i>
+        <i class="fa fa-3x fa-times-circle" aria-hidden="true" style="color: #ce303d;display: none"></i>
+    </div>
+    <div class="alert alert-success hidden showP">
+        <span th:onclick="'addCourse('+${course.id}+')'" style="margin-right: 20px;">添加课程</span>
+        <span th:onclick="'download('+${course.id}+')'">下载课程</span>
+    </div>
+</div>
+</body>
+<script th:src="@{/js/lib/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
+<script>
+    $('.icon-page-operate').on('click', function () {
+        if ($('.showP').hasClass('hidden')) {
+            $('.showP').removeClass('hidden');
+            $('.fa-plus-circle').hide();
+            $('.fa-times-circle').show()
+        } else {
+            $('.showP').addClass('hidden');
+            $('.fa-plus-circle').show();
+            $('.fa-times-circle').hide()
+        }
+    });
+    $(".btn2").click(function () {
+        $("p").show();
+    });
+
+    function addCourse(courseId) {
+        $.post("elective", {id: courseId}, function (data) {
+            console.log(data);
+            if(data.msg==='success'){
+                alert('添加成功');
+            }else if (data.code === 19){
+                alert('此课程已添加');
+            }
+        });
+    }
+    function download(courseId) {
+        window.location.href = "download/" + courseId;
+    }
+
+</script>
+</html>

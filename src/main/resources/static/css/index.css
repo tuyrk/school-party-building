@@ -1,0 +1,121 @@
+*{
+    font-family: "Microsoft YaHei UI";
+}
+.all-content {
+    max-width: 1024px;
+    min-width: 320px;
+    margin: 0 auto;
+}
+.function-inner{
+    margin-top: 3%;
+}
+.function-inner-border{
+    padding-bottom: 3%;
+    border-bottom: 10px solid #f0f0f0;
+}
+.course-personal-border{
+     border-bottom: 10px solid #f0f0f0;
+ }
+.icon{
+    width: 32.5%;
+    display: inline-block;
+    text-align: center;
+}
+.icon-content{
+    margin: 0 auto;
+    width: 45px;
+    height: 45px;
+}
+.icon span{
+    font-size: 1.4rem;
+}
+.course-personal{
+    width: 70%;
+    margin: 3% auto;
+    font-size: 1.6rem;
+}
+.course-personal a{
+    color: #333333;
+}
+.course-personal a:hover{
+    text-decoration: none;
+}
+.course-management{
+    display: inline-block;
+    width: 50%;
+    text-align: left;
+    border-right: 1px solid #ce303d;
+}
+.personal-center{
+    text-align: right;
+    width: 46%;
+    display: inline-block;
+}
+.concern{
+    padding: 3% 5% 5% 5%;
+}
+.concern-title{
+    font-size: 1.6rem;
+    float: left;
+}
+.concern-title span{
+    margin-left: 5px;
+}
+.concern-more{
+    float: right;
+}
+.concern-more a{
+    color: #8a8686;
+    font-size: 1.3rem;
+}
+.concern-content{
+    margin-top: 10%;
+}
+.concern-content-img{
+    padding: 1%;
+    width: 30%;
+    min-height: 80px;
+    display: inline-block;
+}
+.concern-content-img img{
+    margin:0 auto;
+}
+.concern-content-text{
+    width: 68%;
+    padding-top: 1%;
+    display: inline-block;
+    vertical-align: top;
+    height: 80px;
+    font-size: 1.4rem;
+}
+.concern-content-text-header{
+    font-weight: bolder;
+    word-break: keep-all; /* 不换行 */
+    white-space: nowrap; /* 不换行 */
+    overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+.concern-content-text-body{
+    word-break:keep-all;/* 不换行 */
+    white-space:nowrap;/* 不换行 */
+    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+@media screen and (min-width: 641px) {
+    .carousel-inner img {
+        width:100%;
+    }
+    .icon-content{
+        width: 60px;
+        height: 60px;
+    }
+}
+@media screen and (max-width: 374px) {
+    .icon-content{
+        width: 40px;
+        height: 40px;
+    }
+    .icon {
+        width: 32%;
+    }
+}

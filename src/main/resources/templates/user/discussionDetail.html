@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>交流讨论</title>
+    <link rel="stylesheet" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/lib/fonts/css/font-awesome.min.css}"/>
+    <style>
+        * {
+            font-family: "Microsoft YaHei UI";
+        }
+        .all-content {
+            max-width: 1024px;
+            min-width: 320px;
+            margin: 0 auto;
+        }
+        .header-bar {
+            height: 45px;
+            background: #ce303d;
+            color: #ffffff;
+        }
+        .header-back {
+            width: 30%;
+            display: inline-block;
+            line-height: 45px;
+            margin-left: 3%;
+        }
+        .header-title {
+            width: 33%;
+            text-align: center;
+            display: inline-block;
+            line-height: 45px;
+            font-size: 1.7rem;
+        }
+        .fa-chevron-left:hover, .fa-chevron-left:active,
+        .discussion-list {
+            border-top: 10px solid #f0f0f0;
+            min-height: 80px;
+        }
+        .discussion-people {
+            width: 90%;
+            margin: 3% auto;
+            max-height: 400px;
+        }
+        .discussion-people-headPortrait {
+            display: inline-block;
+        }
+        .discussion-people-headPortrait img {
+            height: 50px;
+            width: 50px;
+        }
+        .discussion-people-ifo {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 14px;
+            font-weight: bold;
+            margin-left: 0.5%;
+        }
+        .discussion-people-ifo span:last-child {
+            font-size: 13px;
+            font-weight: normal;
+            color: darkgray;
+        }
+        .discussion-people-content {
+            font-size: 1.5rem;
+            margin-top: 3%;
+            padding-left: 1%;
+        }
+        .addComment {
+            position: fixed;
+            bottom: 1px;
+            width: 100%;
+            margin: 0 auto;
+            max-width: 1024px;
+        }
+        .addComment textarea {
+            padding: 3px;
+            height: 30px;
+            max-height: 200px;
+            width: 85%;
+            border: none;
+            border-bottom: 1px solid grey;
+            display: inline-block;
+            resize: none;
+            overflow: hidden;
+            vertical-align: middle;
+        }
+        .addComment i {
+            color: darkgray;
+        }
+        .comment-content {
+            padding: 2%;
+            border-bottom: 1px solid #f0f0f0;
+            overflow-x: auto;
+        }
+        .comment-content-date {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<div class="all-content">
+    <div class="header-bar">
+        <div class="header-back" onclick="self.location=document.referrer;">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div class="header-title">交流讨论</div>
+    </div>
+    <div class="discussion-list">
+        <div class="discussion-people discussion-people_1">
+            <div class="discussion-people-headPortrait">
+                <img th:src="@{${discuss.headshot}}" alt="" class="img-circle"/>
+            </div>
+            <div class="discussion-people-ifo">
+                <span th:text="${discuss.username}"></span><br/>
+                <span th:text="${#dates.format(discuss.time,'yyyy/MM/dd')}"></span>
+            </div>
+            <div class="discussion-people-content" th:text="${discuss.content}"></div>
+            <div class="discussion-people-number">
+                <div class="pull-right">
+                    <i class="fa fa-comments" aria-hidden="true" style="color: darkgray;"></i>
+                    <span style="font-size: 1.3rem;color: darkgray">评论<span th:text="${discuss.count2}"></span>次</span>
+                </div>
+                <hr class="clearfix" style="clear: both"/>
+                <div class="add"></div>
+                <div class="comment-content" th:each="comment : ${discuss.commentList}">
+                    <b th:text="${comment.username}+："></b><span th:text="${comment.content}"></span>
+                    <div class="comment-content-date"
+                         th:text="${#dates.format(comment.time,'yyyy/MM/dd hh:mm:ss')}"></div>
+                </div>
+            </div>
+            <div class="addComment">
+                <textarea class="form-control comment-value" placeholder="评论" onkeyup="MaxMe(this)"></textarea>
+                <i class="fa fa-lg fa-paper-plane send" th:onclick="'comment('+${discuss.id}+')'" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:src="@{/js/lib/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
+<script>
+    function comment(id) {//不能删除此函数
+        var content = $('.comment-value').val();
+        if (content) {
+            $.post(id + "/save", {content: content}, function (data) {
+                $('.add').after(
+                    '<div class="comment-content">' + '<b>' + data.data.username + '：</b>'+ data.data.content +
+                    '<div class="comment-content-date">' + data.data.time + '</div>'+
+                        '</div>'
+                );
+                $('.comment-value').val('');
+                setCss();
+            });
+        }
+    }
+    function setCss() {
+        $('.fa-picture-o').css('color', 'darkgray');
+        $('.fa-paper-plane').css('color', 'darkgray');
+        $('textarea').css('height', '25px');
+    }
+    function MaxMe(o) {
+        if (o.value) {
+            $('.send').css('color', '#66afe9');
+        }
+        if (window.navigator.userAgent.indexOf("Firefox") > -1) {
+            o.style.height = o.scrollTop + o.scrollHeight + "px";
+        } else if (o.scrollTop > 0) {
+            o.style.height = o.scrollTop + o.scrollHeight + "px";
+        } else if (!o.value) {
+            o.style.height = 25 + 'px';
+            $('.send').css('color', 'darkgray');
+        }
+    }
+</script>
+</html>

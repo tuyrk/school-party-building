@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>个人中心</title>
+    <link rel="stylesheet" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/lib/fonts/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/iconPage.css}"/>
+    <style>
+        .nav {
+            border: none;
+            margin-bottom: 4%;
+        }
+        .nav li {
+            width: 33.3%;
+            text-align: center;
+        }
+        .nav li a {
+            width: 53%;
+            padding: 5px 0;
+            margin: 0 auto;
+            color: #333333;
+            border: none;
+        }
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+            color: #ce303d;
+        !important;
+            border: none;
+            border-bottom: 2px solid #ce303d;
+        }
+        h5 {
+            margin: 0;
+            margin-bottom: 2%;
+        }
+        .personal-info {
+            padding: 5% 5% 0 5%;
+        }
+        .personal-people-headPortrait, .discussion-content-headPortrait {
+            display: inline-block;
+        }
+        .personal-people-headPortrait img {
+            height: 50px;
+            width: 50px;
+        }
+        .discussion-content-headPortrait img {
+            height: 40px;
+            width: 40px;
+        }
+        .personal-people-info, .discussion-content-people-info {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 15px;
+            font-weight: bold;
+            margin-left: 0.5%;
+        }
+        .discussion-content-people-info {
+            font-size: 14px;
+        }
+        .personal-people-info span:last-child, .discussion-content-people-info span:last-child {
+            font-size: 13px;
+            font-weight: normal;
+            color: darkgray;
+        }
+        .personal-people-info-edit {
+            display: inline-block;
+            float: right;
+            color: #ce303d;
+            margin-top: 13px;
+        }
+        .personal-people-info-edit i:hover, .personal-people-info-edit i:active {
+            color: #428bca;
+        }
+        .discussion-list, .learn-list, .goal-list {
+            padding: 3% 3% 0 3%;
+        }
+        hr {
+            margin: 10px 0;
+        }
+        .publish-text .form-control {
+            resize: none;
+        }
+        .goal-publish-btn, .learn-publish-btn {
+            margin: 2% 0;
+            text-align: right;
+        }
+        .learn-date {
+            text-align: right;
+        }
+        .fa-trash-o {
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        p {
+            font-size: 1.5rem;
+            padding: 3% 0 0 5%;
+        }
+        .img-circle{
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+<div class="all-content">
+    <div class="header-bar">
+        <div class="header-back" th:onclick="'window.location.href=\''+@{/user/index}+'\''">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div class="header-title">个人中心</div>
+    </div>
+    <div class="personal-info" th:onclick="'window.location.href=\''+@{/user/info}+'\''">
+        <div class="personal-people-headPortrait">
+            <img th:src="@{${user.headshot}}" alt="" class="img-circle"/>
+        </div>
+        <div class="personal-people-info">
+            <span th:text="${user.username}"></span><br/>
+            <span th:text="${user.mail}"></span>
+        </div>
+        <div class="personal-people-info-edit">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </div>
+    </div>
+    <hr/>
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active"><a href="#myDiscussion" data-toggle="tab">我的讨论</a></li>
+        <li><a id="impress" href="#learn" data-toggle="tab">学习感想</a></li>
+        <li style="width: 33.4%"><a id="goal2" href="#goal" data-toggle="tab">目标任务</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active discussion-list" id="myDiscussion">
+            <div th:each="discuss : ${discussList}">
+                <div class="discussion-content"
+                     th:onclick="'window.location.href=\''+@{/user/discuss/}+${discuss.id}+'\''">
+                    <div class="discussion-content-headPortrait">
+                        <img th:src="@{${discuss.headshot}}" class="img-circle"/>
+                    </div>
+                    <div class="discussion-content-people-info">
+                        <span th:text="${discuss.username}"></span><br/>
+                        <span th:text="${#dates.format(discuss.time,'yyyy/MM/dd')}"></span>
+                    </div>
+                    <p th:text="${discuss.content}"></p>
+                    <hr/>
+                </div>
+            </div>
+            <button class="btn btn-default load-more load-more-discussion" onclick="getMyDiscuss()">更多</button>
+        </div>
+        <div class="tab-pane fade learn-list" id="learn">
+            <div class="publish-content learn-publish-content">
+                <div class="publish-text">
+                    <form action="#">
+                        <textarea name="" cols="30" rows="6" class="form-control learn-text"
+                                  placeholder="这一刻的想法..."></textarea>
+                        <div class="learn-publish-btn">
+                            <input type="button" class="btn btn-default learn-save-impress" onclick="saveImpress()"
+                                   value="发表"/>
+                        </div>
+                    </form>
+                </div>
+                <hr/>
+            </div>
+            <button class="btn btn-default load-more load-more-impress" onclick="getImpress()">更多</button>
+        </div>
+        <div class="tab-pane fade goal-list" id="goal" style="text-align: center">
+            <div class="publish-content goal-publish-content">
+                <div class="publish-text">
+                    <form action="#">
+                        <textarea name="" id="" cols="30" rows="6" class="form-control goal-text"
+                                  placeholder="这一刻的想法..."></textarea>
+                        <div class="goal-publish-btn">
+                            <input type="button" class="btn btn-default" onclick="saveGoal()" value="发表"/>
+                        </div>
+                    </form>
+                </div>
+                <hr/>
+            </div>
+            <button class="btn btn-default load-more load-more-goal" onclick="getGoal()">更多</button>
+        </div>
+    </div>
+</div>
+</body>
+<script th:src="@{/js/lib/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
+<script>
+    function saveImpress() {
+        var content = $('.learn-text').val();
+        if (content) {
+            $.post("personal/impress/save", {content: content}, function (date) {
+                var newNode =
+                    '<div class="learn-content content'+date.data.id+'">' +
+                    '<p>' + date.data.content + '</p>' +
+                    '<div class="learn-date">' + date.data.time +
+                    '<i class="fa fa-lg fa-trash-o" aria-hidden="true" onclick="delete_some(' + date.data.id + ')"/></div></div>'+
+                    '<hr class="content'+date.data.id+'"/>';
+                $('.learn-publish-content').after(newNode);
+                $('.learn-text').val('');
+            })
+        }
+    }
+    function saveGoal() {
+        var content = $('.goal-text').val();
+        if (content) {
+            $.post("personal/goal/save", {content: content}, function (date) {
+                var newNode =
+                    '<div class="goal-content content'+date.data.id+'">' +
+                    '<p style="text-align: left">' + date.data.content + '</p>' +
+                    '<div class="learn-date">' + date.data.time +
+                    '<i class="fa fa-lg fa-trash-o" aria-hidden="true" onclick="delete_some(' + date.data.id + ')"/></div></div>'+
+                    '<hr class="content'+date.data.id+'"/>';
+                $('.goal-publish-content').after(newNode);
+                $('.goal-text').val('');
+            })
+        }
+    }
+    function delete_some(id) {
+        $.post("personal/delete", {id: id}, function (date) {
+            if (date.msg === "success"){
+                var delete_content='content'+id;
+                $("." + delete_content).remove();
+                alert("删除成功");
+            } else{
+                $(this).closest('div').remove();
+                alert("删除失败")
+            }
+        })
+    }
+    var page1 = 1;
+    var page2 = 0;
+    var page3 = 0;
+    var flag2 = false;
+    var flag3 = false;
+    $('#impress').on('click', function () {
+        if (flag2 === false) {
+            getImpress();
+        }
+    });
+    $('#goal2').on('click', function () {
+        if (flag3 === false) {
+            getGoal();
+        }
+    });
+    function getMyDiscuss() {
+        $.get("personal/discuss/more", {page: page1++}, function (date) {
+            if (date.data.length) {
+                alert(date.data.length);
+                $.each(date.data, function (i, item) {
+                    $('.load-more-discussion').before(
+                        '<div>' +
+                        '<div class="discussion-content">' +
+                        '<div class="discussion-content-headPortrait">' +
+                        '<img src="/party' + item.headshot + '" alt="" class="img-circle" />' +
+                        '</div>' +
+                        '<div class="discussion-content-people-info">' +
+                        '<span>' + item.username + '</span><br/>' +
+                        '<span>' + item.time + '</span>' +
+                        '</div>' +
+                        '<p>' + item.content + '</p>' +
+                        '<hr/>' +
+                        '</div>' +
+                        '</div>'
+                    )
+                });
+            } else {
+                alert('没有更多了')
+            }
+        })
+    }
+    function getImpress() {
+        $.get("personal/impress", {page: page2++}, function (date) {
+            if (date.data) {
+                $.each(date.data, function (i, item) {
+                    $('.load-more-impress').before(
+                        '<div class="learn-content content'+item.id+'">' +
+                        '<p>' + item.content + '</p>' +
+                        '<div class="learn-date">' + item.time +
+                        '<i class="fa fa-lg fa-trash-o" aria-hidden="true" onclick="delete_some(' + item.id + ')" /></div></div><hr/>');
+                });
+            } else if (flag2 === true) {
+                alert('没有更多了')
+            }
+            flag2 = true
+        })
+    }
+    function getGoal() {
+        $.get("personal/goal", {page: page3++}, function (date) {
+            if (date.data) {
+                $.each(date.data, function (i, item) {
+                    $('.load-more-goal').before(
+                        '<div class="goal-content content'+item.id+'">' +
+                        '<p style="text-align: left">' + item.content + '</p>' +
+                        '<div class="learn-date">' + item.time +
+                        '<i class="fa fa-lg fa-trash-o" aria-hidden="true" onclick="delete_some(' + item.id + ')"/></div></div><hr/>');
+                });
+            } else if (flag3 === true){
+                alert('没有更多了')
+            }
+            flag3 = true
+        })
+    }
+</script>
+</html>

@@ -1,0 +1,29 @@
+server:
+  port: 9002
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: test
+    password: 123456
+    url: jdbc:mysql://118.126.110.110:3306/party?characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
+  jpa:
+    show-sql: true
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+    multipart:
+      max-file-size: 10Mb
+      max-request-size: 10Mb
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: UTF-8
+    cache: false
+    content-type: text/html

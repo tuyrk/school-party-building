@@ -1,0 +1,84 @@
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>登录</title>
+    <link rel="stylesheet" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/jquery.idcode.css}"/>
+    <link rel="stylesheet" th:href="@{/css/alert.css}"/>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+</head>
+<body>
+<div class="all-content">
+    <!--晃动提示-->
+    <div class="flex-alert">
+        <div class="flex-item" id="shake"><span></span></div>
+    </div>
+    <div class="header-img">
+        <img th:src="@{/img/log_reg/header-img.png}" alt="header-img" class="img-responsive" style="margin:0 auto"/>
+    </div>
+    <div class="form-content">
+        <form action="#">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active pull-left"><a href="#logForm" data-toggle="tab">登录</a></li>
+                <li class="pull-right"><a href="#regForm" data-toggle="tab">注册</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <!--登录表单-->
+                <div class="tab-pane fade in active" id="logForm">
+                    <input type="hidden" id="link" th:value="@{/user/index}"/>
+                    <div class="group-input">
+                        <input type="text" id="username" class="form-control name" placeholder="用户名"/>
+                    </div>
+                    <div class="group-input">
+                        <input type="password" id="password" class="form-control password" placeholder="密码"/>
+                    </div>
+                    <div class="group-input">
+                        <input type="text" class="form-control valid-code-ipt Txtidcode" id ="Txtidcode" placeholder="验证码" style="width:50%;display: inline-block"/>
+                        <div  class="valid-code-div" style="display: inline-block"><span id="idcode"></span></div>
+                    </div>
+                    <div class="group-input">
+                        <input type="button" class="btn btn-default login-btn" value="登录"  id="login"/>
+                        <span>
+                            <a th:href="@{/retrieve}" class="forget-password">忘记密码？</a>
+                        </span>
+                    </div>
+                </div>
+                <!--注册表单-->
+                <div class="tab-pane fade" id="regForm">
+                    <div class="group-input">
+                        <input type="text" name="username" class="form-control regName" placeholder="用户名(6-12位数字或字母)"/>
+                    </div>
+                    <div class="group-input">
+                        <input type="text" name="phone" class="form-control mobile" placeholder="手机号"/>
+                    </div>
+                    <div class="group-input">
+                        <input type="email" name="mail" class="form-control email" placeholder="邮箱"/>
+                    </div>
+                    <div class="group-input">
+                        <input type="password" name="password" class="form-control regPassword" placeholder="密码(6-16位数字或字母)"/>
+                    </div>
+                    <div class="group-input">
+                        <input type="password" class="form-control regPassword_2" placeholder="确认密码"/>
+                    </div>
+                    <div class="group-input">
+                        <input type="text" class="form-control valid-code-ipt regCode" placeholder="验证码" style="width:50%;display: inline-block"/>
+                        <input type="button" class="btn btn-default valid-code-btn regCodeBtn" value="获取验证码" style="display: inline-block"/>
+                    </div>
+                    <div class="group-input">
+                        <input type="button" class="btn btn-default reg-btn" id="reg" value="注册"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script th:src="@{/js/lib/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
+<script th:src="@{/js/jquery.idcode.js}"></script>
+<script th:src="@{/js/login.js}"></script>
+<script>
+</script>
+</html>

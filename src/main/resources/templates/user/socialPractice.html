@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>社会实践</title>
+    <link rel="stylesheet" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/lib/fonts/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/iconPage.css}"/>
+    <style>
+        .icon-page-content {
+            border: none;
+            border-bottom: 1px solid #e6e6e6;
+            padding: 1% 1% 4% 1%;
+            margin-bottom: 3%;
+        }
+
+        body {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+<div class="all-content">
+    <div class="header-bar">
+        <div class="header-back" onclick="history.go(-1)">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div class="header-title">社会实践</div>
+    </div>
+    <div class="icon-page-list" th:each="social : ${socialList}">
+        <div class="icon-page-content">
+            <div class="icon-page-content-img">
+                <img th:src="@{${social.headshot}}" alt="" class="img-responsive"/>
+            </div>
+            <div class="icon-page-content-text">
+                <div class="icon-page-content-text-header" th:text="${social.title}"></div>
+                <div class="icon-page-content-text-body" th:text="${social.content}"></div>
+                <div class="icon-page-content-text-footer">
+                    <div class="icon-page-content-text-more">
+                        <a th:href="@{'/user/social/'+${social.id}}">
+                            <span> 详情查看</span>
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div th:text="${#dates.format(social.time,'yyyy-MM-dd')}"
+                         style="margin-left:0;display: inline-block; text-align: right;font-size:10px;width: 100%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-default load-more" onclick="getSocialAll()">更多</button>
+</div>
+</body>
+<script th:src="@{/js/lib/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
+<script>
+    var page = 1;
+
+    function getSocialAll() {
+        $.get("social/more", {page: page++}, function (data) {
+            if (data.data) {
+                $.each(data.data, function (i, item) {
+                    $('.load-more').before(
+                        '<div class="icon-page-list">' +
+                        '<div class="icon-page-content">' +
+                        '<div class="icon-page-content-img">' +
+                        '<img src="/party' + item.headshot + '" alt="" class="img-responsive" />' +
+                        '</div>' +
+                        '<div class="icon-page-content-text">' +
+                        '<div class="icon-page-content-text-header">&nbsp;' + item.title + '</div>' +
+                        '<div class="icon-page-content-text-body">&nbsp;' + item.content + '</div>' +
+                        '<div class="icon-page-content-text-footer">' +
+                        '<div class="icon-page-content-text-more">' +
+                        '<a href="social/' + item.id + '">' + '<span>&nbsp;详情查看&nbsp;</span>' +
+                        '<i class="fa fa-angle-double-right" aria-hidden="true"></i>' +
+                        '</a>' +
+                        '</div>' +
+                        '<div style="text-align: right;font-size:10px;margin-left:0;display: inline-block;width:100%">&nbsp;&nbsp;' + item.time + '</div>'+
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'
+                    )
+                });
+            } else {
+                alert('没有更多了')
+            }
+        });
+    }
+</script>
+</html>

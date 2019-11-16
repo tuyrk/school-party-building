@@ -1,0 +1,216 @@
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>经典课程</title>
+    <!---->
+    <link rel="stylesheet" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/lib/fonts/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/iconPage.css}"/>
+    <style>
+        .icon-page-content {
+            border: none;
+            border-bottom: 2px solid #f0f0f0;
+            min-height: 80px;
+            padding: 2%;
+            margin-bottom: 3%;
+            cursor: pointer;
+        }
+
+        .nav {
+            border: none;
+            margin-top: 1%;
+        }
+        .nav li {
+            width: 33.3%;
+            text-align: center;
+        }
+        .nav li a {
+            color: #333333;
+            border: none;
+            border-right: 1px solid #ce303d;
+            padding: 0;
+            border-radius: 0;
+            margin: 5% 0 0 0;
+            font-size: 1.7rem;
+        }
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+            color: #ce303d;
+        !important;
+            border: none;
+            border-right: 1px solid #ce303d;
+        }
+        h5 {
+            margin: 0;
+            margin-bottom: 2%;
+            font-size: 1.6rem;
+        }
+        span {
+            font-size: 1.5rem;
+        }
+        .icon-page-content-text-footer {
+            margin-top: 2%;
+        }
+    </style>
+</head>
+<body>
+<div class="all-content">
+    <div class="header-bar">
+        <div class="header-back">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div class="header-title">经典课程</div>
+    </div>
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active">
+            <a href="#junior" data-toggle="tab">初级</a></li>
+        <li>
+            <a id="type2" href="#medium" data-toggle="tab">中级</a></li>
+        <li style="width: 33.4%">
+            <a id="type3" href="#senior" data-toggle="tab" style="border: none">高级</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="junior">
+            <div class="icon-page-list" th:each="course : ${courseList}">
+                <div class="icon-page-content" th:onclick="'window.location.href=\''+@{/user/course/}+${course.id}+'\''">
+                    <div class="icon-page-content-img">
+                        <img th:src="@{${course.cover}}" alt="" class="img-responsive"/>
+                    </div>
+                    <div class="icon-page-content-text">
+                        <div class="icon-page-content-text-header">
+                            <h5 th:text="${course.name}"></h5><span th:text="${course.teacher}"></span>
+                        </div>
+                        <div class="icon-page-content-text-footer">
+                            <span>初级-<span th:text="${course.count}"></span>人在学</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-default load-more load-more-primary" onclick="getCoursesAll(1,getPage1())">更多</button>
+        </div>
+        <div class="tab-pane fade" id="medium">
+            <button class="btn btn-default load-more load-more-mid" onclick="getCoursesAll(2,getPage2())">更多</button>
+        </div>
+        <div class="tab-pane fade" id="senior">
+            <button class="btn btn-default load-more load-more-senior" onclick="getCoursesAll(3,getPage3())">更多</button>
+        </div>
+    </div>
+</div>
+</body>
+<script th:src="@{/js/lib/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
+<script>
+    $('.header-back').on('click', function () {
+        window.history.go(-1);
+    });
+    var page1 = 1;
+    var page2 = 0;
+    var page3 = 0;
+    var flag2 = false;
+    var flag3 = false;
+    function getPage1() {
+        return page1++;
+    }
+    function getPage2() {
+        return page2++;
+    }
+    function getPage3() {
+        return page3++;
+    }
+    $('#type2').on('click', function () {
+        if (flag2 === false) {
+            getCoursesAll(2, page2++);
+        }
+    });
+    $('#type3').on('click', function () {
+        if (flag3 === false) {
+            getCoursesAll(3, page3++);
+        }
+    });
+    function getCoursesAll(typeNum, page) {
+        $.get("course/more", {type: typeNum, page: page}, function (data) {
+            if(typeNum===1) {
+                if(data.data){
+                    $.each(data.data,function (i,item) {
+                        $('.load-more-primary').before(
+                            '<div class="icon-page-list">' +
+                                '<div class="icon-page-content" onclick="clickHref('+item.id+')">'+
+                                    '<div class="icon-page-content-img">'+
+                                        '<img src="/party'+item.cover+'" alt="" class="img-responsive" />'+
+                                    '</div>'+
+                                    '<div class="icon-page-content-text">'+
+                                        '<div class="icon-page-content-text-header">' +
+                                            '<h5>'+item.name+'</h5>'+'<span>'+item.teacher+'</span>'+
+                                        '</div>'+
+                                        '<div class="icon-page-content-text-footer">'+
+                                            '<span>初级-<span>'+item.count+'</span>人在学</span>'+
+                                         '</div>'+
+                                     '</div>'+
+                                '</div>'+
+                            '</div>'
+                        )
+                    });
+                }else{
+                    alert('没有更多了')
+                }
+            }
+            if(typeNum===2){
+                if(data.data){
+                    $.each(data.data,function (i,item) {
+                        $('.load-more-mid').before(
+                            '<div class="icon-page-list">' +
+                            '<div class="icon-page-content" onclick="clickHref('+item.id+')">'+
+                            '<div class="icon-page-content-img">'+
+                            '<img src="/party'+item.cover+'" alt="" class="img-responsive" />'+
+                            '</div>'+
+                            '<div class="icon-page-content-text">'+
+                            '<div class="icon-page-content-text-header">' +
+                            '<h5>'+item.name+'</h5>'+'<span>'+item.teacher+'</span>'+
+                            '</div>'+
+                            '<div class="icon-page-content-text-footer">'+
+                            '<span>中级-<span>'+item.count+'</span>人在学</span>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>'
+                        )
+                    });
+                }else if (flag2 === true) {
+                    alert("没有更多了！");
+                }
+                flag2 = true;
+            }
+            if(typeNum===3){
+                if(data.data){
+                    $.each(data.data,function (i,item) {
+                        $('.load-more-senior').before(
+                            '<div class="icon-page-list">' +
+                            '<div class="icon-page-content" onclick="clickHref('+item.id+')">'+
+                            '<div class="icon-page-content-img">'+
+                            '<img src="/party'+item.cover+'" alt="" class="img-responsive" />'+
+                            '</div>'+
+                            '<div class="icon-page-content-text">'+
+                            '<div class="icon-page-content-text-header">' +
+                            '<h5>'+item.name+'</h5>'+'<span>'+item.teacher+'</span>'+
+                            '</div>'+
+                            '<div class="icon-page-content-text-footer">'+
+                            '<span>高级-<span>'+item.count+'</span>人在学</span>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>'
+                        )
+                    });
+                }else if (flag3 === true){
+                    alert("没有更多了！");
+                }
+                flag3 = true;
+            }
+        });
+    }
+    function clickHref(id) {
+        window.location.href="course/"+id;
+    }
+</script>
+</html>

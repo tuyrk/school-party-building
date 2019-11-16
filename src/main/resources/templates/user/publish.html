@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>发布</title>
+    <link rel="stylesheet" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/lib/fonts/css/font-awesome.min.css}"/>
+    <style>
+        * {
+            font-family: "Microsoft YaHei UI";
+        }
+        body{
+            background: #f0f0f0;
+        }
+        .all-content {
+            max-width: 1024px;
+            min-width: 320px;
+            margin: 0 auto;
+            background: #fff;
+        }
+        .header-bar {
+            height: 45px;
+            background: #ce303d;
+            color: #ffffff;
+        }
+        .header-back {
+            width: 30%;
+            display: inline-block;
+            line-height: 45px;
+            margin-left: 3%;
+        }
+        .header-title {
+            width: 62%;
+            text-align: right;
+            display: inline-block;
+            line-height: 45px;
+            font-size: 1.5rem;
+        }
+        .header-title a{
+            color: white;
+            cursor: pointer;
+        }
+        .fa-chevron-left:hover,.fa-chevron-left:active{
+            color: #428bca;
+        }
+        .publish-text .form-control{
+            border: none;
+            resize: none;
+        }
+        .publish-img i{
+            font-size:10rem;
+            border: none;
+            color: #f2f2f2;
+        }
+        .publish-img i:hover,.publish-img i:active{
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+<div class="all-content">
+    <div class="header-bar">
+        <div class="header-back" onclick="history.go(-1)">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div class="header-title"><a>发表</a></div>
+    </div>
+    <div class="publish-content">
+        <div class="publish-text">
+            <form action="#">
+                <textarea name="" cols="30" rows="6" class="form-control" id="publishText" placeholder="这一刻的想法..."></textarea>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script th:src="@{/js/lib/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
+<script>
+    $('.header-title').on('click',function () {
+        var content = $('#publishText').val();
+        if(content) {
+            $.post("save", {content: content}, function () {
+                alert('发表成功');
+                self.location=document.referrer;
+            });
+        } else{
+            alert('发表内容不能为空');
+        }
+    })
+</script>
+</html>

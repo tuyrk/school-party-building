@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>人物长廊</title>
+    <link rel="stylesheet" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/lib/fonts/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/iconPage.css}"/>
+    <style>
+        body {
+            font-size: 1.4rem;
+        }
+        .username-bold{
+            font-weight:bolder;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+<div class="all-content">
+    <div class="header-bar">
+        <div class="header-back" onclick="history.go(-1)">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div class="header-title">人物长廊</div>
+    </div>
+    <div class="icon-page-list" th:each="person : ${personList}">
+        <div class="icon-page-content">
+            <div class="icon-page-content-img">
+<!--
+               宽高：450*455
+-->
+                <img th:src="@{${person.headshot}}" alt="" class="img-responsive"/>
+            </div>
+            <div class="icon-page-content-text">
+                <div class="icon-page-content-text-header">
+                   <span  class="username-bold" th:text="${person.username}"></span><span th:text="'（'+${person.title}+'）'"></span>
+                </div>
+                <div class="icon-page-content-text-body" th:text="${person.description}"></div>
+                <div class="icon-page-content-text-footer">
+                    <div class="icon-page-content-text-more">
+                        <a th:href="@{'/user/person/'+${person.id}}">
+                            <span>详情查看</span>
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-default load-more" onclick="getPersonAll()">更多</button>
+</div>
+</body>
+<script th:src="@{/js/lib/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
+<script>
+    var page = 1;
+    function getPersonAll() {
+        $.get("person/more", {page: page++}, function (data) {
+            if (data.data) {
+                $.each(data.data,function (i,item) {
+                    $('.load-more').before(
+                        '<div class="icon-page-list">'+
+                        '<div class="icon-page-content">'+
+                        '<div class="icon-page-content-img">'+
+                        '<img src="/party'+item.headshot+'" alt="" class="img-responsive" />'+
+                        '</div>'+
+                        '<div class="icon-page-content-text">'+
+                        '<div class="icon-page-content-text-header">'+
+                        '<span  class="username-bold" >'+item.username+'</span>'+ '<span>（4）</span>'+
+                        '</div>'+
+                        '<div class="icon-page-content-text-body"></div>'+
+                        '<div class="icon-page-content-text-footer">'+
+                        '<div class="icon-page-content-text-more">'+
+                        '<a href="person/'+item.id+'" >'+ '<span>详情查看</span>'+ '<i class="fa fa-angle-double-right" aria-hidden="true"></i>'+ '</a>'+
+                        '</div>'+
+                        '</div>'+
+                        '</div>'+
+                        '</div>'+
+                        '</div>'
+                    )
+                });
+            } else {
+                alert('没有更多了')
+            }
+        });
+    }
+</script>
+</html>

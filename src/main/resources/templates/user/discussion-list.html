@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>交流讨论</title>
+    <link rel="stylesheet" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/lib/fonts/css/font-awesome.min.css}"/>
+    <style>
+        * {
+            font-family: "Microsoft YaHei UI";
+        }
+        .all-content {
+            max-width: 1024px;
+            min-width: 320px;
+            margin: 0 auto;
+        }
+        .header-bar {
+            height: 45px;
+            background: #ce303d;
+            color: #ffffff;
+        }
+        .header-back {
+            width: 30%;
+            display: inline-block;
+            line-height: 45px;
+            margin-left: 3%;
+        }
+        .header-title {
+            width: 33%;
+            text-align: center;
+            display: inline-block;
+            line-height: 45px;
+            font-size: 1.7rem;
+        }
+        .header-operation {
+            width: 29%;
+            display: inline-block;
+            line-height: 45px;
+            text-align: right;
+        }
+        .fa-chevron-left:hover, .fa-chevron-left:active, .fa-plus-circle:hover, .fa-plus-circle:active {
+            color: #428bca;
+        }
+        .discussion-list {
+            border-top: 5px solid #f0f0f0;
+            border-bottom: 5px solid #f0f0f0;
+            min-height: 80px;
+        }
+        .discussion-people {
+            width: 90%;
+            margin: 3% auto;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .discussion-people-headPortrait {
+            display: inline-block;
+        }
+        .discussion-people-headPortrait img {
+            height: 50px;
+            width: 50px;
+        }
+        .discussion-people-ifo {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 15px;
+            font-weight: bold;
+            margin-left: 0.5%;
+        }
+        .discussion-people-ifo span:last-child {
+            font-size: 14px;
+            font-weight: normal;
+            color: darkgray;
+        }
+        .discussion-people-content {
+            margin-top: 3%;
+            font-size: 1.5rem;
+            padding-left: 1%;
+        }
+        .load-more{
+            width: 96%;
+            margin: 2% auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="all-content">
+    <div class="header-bar">
+        <div class="header-back" th:onclick="'window.location.href=\''+@{/user/index}+'\''">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div class="header-title">交流讨论</div>
+        <div class="header-operation" th:onclick="'window.location.href=\''+@{/user/discuss/publish}+'\''">
+            <i class="fa fa-lg fa-plus-circle" aria-hidden="true"></i>
+        </div>
+    </div>
+    <div class="discussion-list" th:each="discuss : ${discussList}">
+        <div class="discussion-people" th:onclick="'window.location.href=\''+@{/user/discuss/}+${discuss.id}+'\''">
+            <div class="discussion-people-headPortrait">
+                <img th:src="@{${discuss.headshot}}" alt="" class="img-circle"/>
+            </div>
+            <div class="discussion-people-ifo">
+                <span th:text="${discuss.username}"></span><br/>
+                <span th:text="${#dates.format(discuss.time,'yyyy/MM/dd')}"></span>
+            </div>
+            <div class="discussion-people-content" th:text="${discuss.content}"></div>
+            <div class="discussion-people-number  pull-right">
+                <i class="fa fa-comments" aria-hidden="true" style="color: darkgray;"></i>
+                <span style="font-size: 1.4rem;color: darkgray">浏览<span th:text="${discuss.count}"></span>次</span>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-default load-more" onclick="getDiscussAll()">更多</button>
+</div>
+<script th:src="@{/js/lib/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
+<script>
+    var page = 1;
+    function getDiscussAll() {
+        $.get("discuss/more", {page: page++}, function (data) {
+            if(data.data.length){
+                $.each(data.data,function (i,item) {
+                    $('.load-more').before(
+                        '<div class="discussion-list">'+
+                        '<div class="discussion-people" onclick="clickHref('+item.id+')">' +
+                        '<div class="discussion-people-headPortrait">'+
+                        '<img src="/party'+item.headshot+'" alt="" class="img-circle" />'+
+                        '</div>'+
+                        '<div class="discussion-people-ifo">'+
+                        '<span>'+item.username+'</span><br/>'+
+                        '<span>'+item.time+'</span>'+
+                        '</div>'+
+                        '<div class="discussion-people-content"><p>'+item.content+'</p></div>'+
+                        '<div class="discussion-people-number  pull-right">'+
+                        '<i class="fa fa-comments" aria-hidden="true" style="color:darkgray;"></i>'+
+                        '<span style="font-size: 1.4rem;color: darkgray">浏览<span>'+item.count+'</span>次</span>'+
+                        '</div>'+
+                        '</div>'+
+                        '</div>'
+                    );
+                });
+            }else{
+                alert('没有更多了');
+            }
+        });
+    }
+    function clickHref(id) {
+        window.location.href="discuss/"+id;
+    }
+</script>
+</body>
+</html>

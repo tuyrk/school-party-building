@@ -1,0 +1,74 @@
+* {
+    font-family: "Microsoft YaHei UI";
+}
+.all-content {
+    max-width: 1024px;
+    min-width: 320px;
+    margin: 0 auto;
+}
+.header-bar {
+    height: 45px;
+    background: #ce303d;
+    color: #ffffff;
+}
+.header-back {
+    width: 30%;
+    display: inline-block;
+    line-height: 45px;
+    margin-left: 3%;
+}
+.header-title {
+    width: 33%;
+    text-align: center;
+    display: inline-block;
+    line-height: 45px;
+    font-size: 1.7rem
+}
+.icon-page-list {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 5%;
+}
+.icon-page-content {
+    border: 2px solid #f0f0f0;
+    height: 110px;
+    padding: 2%;
+    margin-bottom: 3%;
+}
+.icon-page-content-img {
+    width: 30%;
+    height: 110px;
+    display: inline-block;
+}
+.icon-page-content-img img {
+    margin: 0 auto;
+    height:75%;
+}
+.icon-page-content-text {
+    width: 68%;
+    padding: 1%;
+    display: inline-block;
+    vertical-align: top;
+    height: 80px;
+}
+.icon-page-content-text-header {
+    font-weight: bolder;
+    word-break: keep-all; /* 不换行 */
+    white-space: nowrap; /* 不换行 */
+    overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+.icon-page-content-text-body {
+    word-break: keep-all; /* 不换行 */
+    white-space: nowrap; /* 不换行 */
+    overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+.fa-chevron-left:hover,.fa-chevron-left:active{
+    color: #428bca;
+}
+.load-more{
+    width: 90%;
+    margin: 2% auto;
+    display: block;
+}
